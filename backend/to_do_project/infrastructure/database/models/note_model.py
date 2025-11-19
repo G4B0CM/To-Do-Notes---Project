@@ -1,18 +1,20 @@
-from sqlalchemy import Column, Integer, String, DateTime, Text, Boolean
-from sqlalchemy.orm import declarative_base
+from datetime import datetime
 
-from core.entites.note import NoteRead
+from sqlalchemy import Column, Integer, String, DateTime, Text, Boolean
+from sqlalchemy.orm import declarative_base, Mapped, mapped_column
+
+from core.entites.note import NoteCreate, NoteRead
 
 Base = declarative_base()
 
 class NoteModel(Base):
     __tablename__ = "note"
 
-    id = Column(Integer, primary_key=True)
-    title = Column(String(50), nullable=False)
-    note_content = Column(Text, nullable= False)
-    creation_date = Column(DateTime, nullable=False)
-    is_completed = Column(Boolean, nullable=False)
+    id : Mapped[int] = mapped_column(Integer, primary_key=True)
+    title : Mapped[str] = mapped_column(String(50), nullable=False)
+    note_content : Mapped[str] = mapped_column(Text, nullable= False)
+    creation_date : Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    is_completed : Mapped[bool] = mapped_column(Boolean, nullable=False)
 
     def to_entity(self) -> NoteRead:
         return NoteRead(
@@ -24,7 +26,7 @@ class NoteModel(Base):
         )
     
     @staticmethod
-    def from_entity(note: NoteRead) -> "NoteModel":
+    def from_entity(note: NoteCreate) -> "NoteModel":
         return NoteModel(
             title = note.title,
             note_content = note.note_content,

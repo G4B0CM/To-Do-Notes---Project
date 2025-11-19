@@ -19,13 +19,18 @@ class NoteRepository(INoteRepository):
 
 
     def get_all_notes(self) -> List[NoteRead]:
-        return self.db.query(NoteModel).all()
+        return [model.to_entity() for model in self.db.query(NoteModel).all()]
 
     def get_by_id(self, note_id:int) -> Optional[NoteRead]:
-        return self.db.query(NoteModel).filter(NoteModel.id == note_id).first()
+        note_db = self.db.query(NoteModel).filter(NoteModel.id == note_id).first()
+        if not note_db:
+            return None
+        return note_db.to_entity()
 
     def update_note(self, note_id: int, note_content: NoteCreate) -> Optional[NoteRead]:
         note_db = self.db.query(NoteModel).filter(NoteModel.id == note_id).first()
+        if not note_db:
+            return None
         note_db.title = note_content.title
         note_db.note_content = note_content.note_content
         note_db.is_completed = note_content.is_completed
@@ -34,5 +39,7 @@ class NoteRepository(INoteRepository):
 
     def delete_note(self, note_id: int) -> bool:
         note_db = self.db.query(NoteModel).filter(NoteModel.id == note_id).first()
+        if not note_db:
+            return False
         self.db.delete(note_db)
         return True
