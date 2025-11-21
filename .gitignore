@@ -2,6 +2,4 @@
 
 /pycache/*
 
-__init__.py
-
 *.pyc
