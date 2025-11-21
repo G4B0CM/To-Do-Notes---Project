@@ -37,7 +37,7 @@ def test_create_and_retrieve_note(db_session):
 
 def test_delete_note(db_session):
     repo = NoteRepository(db_session)
-    new_note = NoteCreate(title="To Delete", note_content="Delete me", is_completed=False)
+    new_note = NoteCreate(title="To Delete Note", note_content="Delete me pls", is_completed=False)
     saved = repo.save_note(new_note)
     
     # Borrar
