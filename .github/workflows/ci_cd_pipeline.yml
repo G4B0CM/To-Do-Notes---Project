@@ -29,9 +29,8 @@ jobs:
 
       - name: Instalar dependencias
         run: |
-          cd backend
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r backend/requirements.txt
           pip install pytest flake8 httpx
 
       - name: Paso 1 - Linting (Calidad de código)
