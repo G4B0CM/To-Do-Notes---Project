@@ -1,7 +1,7 @@
 
 from typing import List, Optional
 from sqlalchemy.orm import Session
-from aplicacion.interfaces.i_note_repository import INoteRepository
+from application.interfaces.i_note_repository import INoteRepository
 from infrastructure.database.models.note_model import NoteModel
 from core.entites.note import NoteCreate, NoteRead
 
@@ -12,10 +12,10 @@ class NoteRepository(INoteRepository):
 
     def save_note(self, note : NoteCreate) -> NoteRead:
         note_db = NoteModel.from_entity(note)
-        self.db.add(note)
+        self.db.add(note_db)
         self.db.flush()
         self.db.refresh(note_db)
-        return note_db
+        return note_db.to_entity()
 
 
     def get_all_notes(self) -> List[NoteRead]:
@@ -35,7 +35,7 @@ class NoteRepository(INoteRepository):
         note_db.note_content = note_content.note_content
         note_db.is_completed = note_content.is_completed
         self.db.flush()
-        return note_db
+        return note_db.to_entity()
 
     def delete_note(self, note_id: int) -> bool:
         note_db = self.db.query(NoteModel).filter(NoteModel.id == note_id).first()

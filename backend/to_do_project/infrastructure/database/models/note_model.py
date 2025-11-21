@@ -1,11 +1,12 @@
 from datetime import datetime
 
 from sqlalchemy import Column, Integer, String, DateTime, Text, Boolean
-from sqlalchemy.orm import declarative_base, Mapped, mapped_column
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 from core.entites.note import NoteCreate, NoteRead
 
-Base = declarative_base()
+class Base(DeclarativeBase):
+    pass
 
 class NoteModel(Base):
     __tablename__ = "note"

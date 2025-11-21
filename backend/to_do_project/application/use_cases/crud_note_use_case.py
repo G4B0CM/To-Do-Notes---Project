@@ -2,7 +2,7 @@
 
 from typing import List, Optional
 
-from aplicacion.interfaces.i_note_repository import INoteRepository
+from application.interfaces.i_note_repository import INoteRepository
 from core.entites.note import NoteCreate, NoteRead
 
 
